@@ -1,0 +1,14 @@
+前端
+框架：vue2 百度地图
+1、本地开发：
+文件路径：dp/config/index.js
+访问Ip： localhost
+端口：8088
+后台接口地址：http://124.223.33.228:9527（配置在代理区域）
+
+2、前端部署：
+文件路径：dist/static/config.js
+后台接口地址：SERVICE_URL
+默认定位层级：MAP_ZOOM
+默认定位中心位置：MAP_CENTER
+百度地图密钥key: MAP_KEY

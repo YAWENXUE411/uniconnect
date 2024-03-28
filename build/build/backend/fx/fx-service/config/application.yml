@@ -1,0 +1,16 @@
+server:
+  port: 9527
+
+spring:
+  application:
+    name: fx-service
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/fx-shop
+    username: postgres
+    password: root
+
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

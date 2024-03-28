@@ -1,0 +1,6 @@
+前端部署：
+文件路径：dist/static/config.js
+后台接口地址：SERVICE_URL
+默认定位层级：MAP_ZOOM
+默认定位中心位置：MAP_CENTER
+百度地图密钥key: MAP_KEY

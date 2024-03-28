@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ywm.mapper.ShopScoreMapper" >
+  <resultMap id="BaseResultMap" type="com.ywm.model.entity.ShopScore" >
+    <id column="shop_id" property="shopId" jdbcType="VARCHAR" />
+    <id column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="NUMERIC" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    shop_id, user_id, score, update_time
+  </sql>
+
+
+</mapper>

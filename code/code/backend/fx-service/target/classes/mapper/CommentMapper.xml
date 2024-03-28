@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ywm.mapper.CommentMapper" >
+  <resultMap id="BaseResultMap" type="com.ywm.model.entity.Comment" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="shop_id" property="shopId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="tags" property="tags" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="NUMERIC" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    "id", shop_id, user_id, tags, score, content, create_time, update_time
+  </sql>
+
+  <!-- 条件查询 店铺评论信息分页列表 -->
+  <select id="getCommentPageList"
+          parameterType="com.ywm.model.base.PageDTO"
+          resultType="com.ywm.model.comment.CommentVO">
+    SELECT
+      t1.*
+      , t2.username AS userName
+      , t2.nickname AS nickname
+    FROM "t_comment" t1
+    LEFT JOIN "t_sys_user" t2 ON t2."id" = t1.user_id
+    <where>
+      <if test="param != null">
+        <if test="param.shopId != null and param.shopId != ''">
+          AND t1.shop_id = #{param.shopId}
+        </if>
+      </if>
+    </where>
+    order by t1.create_time desc
+    <if test="pageSize != null">
+      limit #{pageSize}
+    </if>
+    <if test="offset != null">
+      offset #{offset}
+    </if>
+  </select>
+
+  <!-- 条件查询 店铺评论信息数量 -->
+  <select id="getCommentCount"
+          parameterType="com.ywm.model.base.PageDTO"
+          resultType="java.lang.Long">
+    SELECT
+        count(*)
+    FROM "t_comment" t1
+    LEFT JOIN "t_sys_user" t2 ON t2."id" = t1.user_id
+    <where>
+      <if test="param != null">
+        <if test="param.shopId != null and param.shopId != ''">
+          AND t1.shop_id = #{param.shopId}
+        </if>
+      </if>
+    </where>
+  </select>
+
+  <!-- 评论点赞减1 -->
+  <update id="subLikeNum" parameterType="java.lang.String">
+    UPDATE "t_comment"
+    SET like_num = like_num - 1
+    WHERE "id" = #{commentId}
+    AND like_num > 0
+  </update>
+
+  <!-- 评论点赞加1 -->
+  <update id="addLikeNum" parameterType="java.lang.String">
+    UPDATE "t_comment"
+    SET like_num = like_num + 1
+    WHERE "id" = #{commentId}
+  </update>
+
+</mapper>

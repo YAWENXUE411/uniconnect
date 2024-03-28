@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ywm.mapper.StudentMapper" >
+  <resultMap id="BaseResultMap" type="com.ywm.model.entity.Student" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="university" property="university" jdbcType="VARCHAR" />
+    <result column="college" property="college" jdbcType="VARCHAR" />
+    <result column="specialized" property="specialized" jdbcType="VARCHAR" />
+    <result column="grades" property="grades" jdbcType="VARCHAR" />
+    <result column="gpa" property="gpa" jdbcType="VARCHAR" />
+    <result column="degree" property="degree" jdbcType="VARCHAR" />
+    <result column="offer" property="offer" jdbcType="VARCHAR" />
+    <result column="institution" property="institution" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, "name", sex, age, university, college, specialized, grades, gpa, "degree", offer, institution, price, create_time, update_time
+  </sql>
+
+  <!-- 条件查询 学生信息分页列表 -->
+  <select id="getStudentPageList"
+          parameterType="com.ywm.model.base.PageDTO"
+          resultType="com.ywm.model.student.StudentVO">
+    SELECT * FROM "t_student"
+    <where>
+      <if test="param != null">
+        <if test="param.name != null and param.name != ''">
+          AND "name" LIKE CONCAT('%',#{param.name},'%')
+        </if>
+        <if test="param.university != null and param.university != ''">
+          AND university LIKE CONCAT('%',#{param.university},'%')
+        </if>
+        <if test="param.college != null and param.college != ''">
+          AND college LIKE CONCAT('%',#{param.college},'%')
+        </if>
+        <if test="param.specialized != null and param.specialized != ''">
+          AND specialized LIKE CONCAT('%',#{param.specialized},'%')
+        </if>
+        <if test="param.degree != null and param.degree != ''">
+          AND "degree" LIKE CONCAT('%',#{param.degree},'%')
+        </if>
+        <if test="param.institution != null and param.institution != ''">
+          AND institution LIKE CONCAT('%',#{param.institution},'%')
+        </if>
+        <if test="param.sex != null">
+          AND sex = #{param.sex}
+        </if>
+        <if test="param.minAge != null and param.maxAge!= null">
+          AND age BETWEEN #{param.minAge} AND #{param.maxAge}
+        </if>
+        <if test="param.minAge != null">
+          AND age <![CDATA[ >= ]]> #{param.minAge}
+        </if>
+        <if test="param.maxAge!= null">
+          AND age <![CDATA[ <= ]]> #{param.maxAge}
+        </if>
+        <if test="param.minGrades != null and param.maxGrades!= null">
+          AND grades BETWEEN #{param.minGrades} AND #{param.maxGrades}
+        </if>
+        <if test="param.minGrades != null">
+          AND grades <![CDATA[ >= ]]> #{param.minGrades}
+        </if>
+        <if test="param.maxGrades!= null">
+          AND grades <![CDATA[ <= ]]> #{param.maxGrades}
+        </if>
+        <if test="param.minGpa != null and param.maxGpa!= null">
+          AND gpa BETWEEN #{param.minGpa} AND #{param.maxGpa}
+        </if>
+        <if test="param.minGpa != null">
+          AND gpa <![CDATA[ >= ]]> #{param.minGpa}
+        </if>
+        <if test="param.maxGpa!= null">
+          AND gpa <![CDATA[ <= ]]> #{param.maxGpa}
+        </if>
+        <if test="param.minPrice != null and param.maxPrice!= null">
+          AND price BETWEEN #{param.minPrice} AND #{param.maxPrice}
+        </if>
+        <if test="param.minPrice != null">
+          AND price <![CDATA[ >= ]]> #{param.minPrice}
+        </if>
+        <if test="param.maxPrice!= null">
+          AND price <![CDATA[ <= ]]> #{param.maxPrice}
+        </if>
+      </if>
+    </where>
+    order by grades desc
+    <if test="pageSize != null">
+      limit #{pageSize}
+    </if>
+    <if test="offset != null">
+      offset #{offset}
+    </if>
+  </select>
+
+  <!-- 条件查询 学生信息数量 -->
+  <select id="getStudentCount"
+          parameterType="com.ywm.model.base.PageDTO"
+          resultType="java.lang.Long">
+    SELECT count(*) FROM "t_student"
+    <where>
+      <if test="param != null">
+        <if test="param.name != null and param.name != ''">
+          AND "name" LIKE CONCAT('%',#{param.name},'%')
+        </if>
+        <if test="param.university != null and param.university != ''">
+          AND university LIKE CONCAT('%',#{param.university},'%')
+        </if>
+        <if test="param.college != null and param.college != ''">
+          AND college LIKE CONCAT('%',#{param.college},'%')
+        </if>
+        <if test="param.specialized != null and param.specialized != ''">
+          AND specialized LIKE CONCAT('%',#{param.specialized},'%')
+        </if>
+        <if test="param.degree != null and param.degree != ''">
+          AND "degree" LIKE CONCAT('%',#{param.degree},'%')
+        </if>
+        <if test="param.institution != null and param.institution != ''">
+          AND institution LIKE CONCAT('%',#{param.institution},'%')
+        </if>
+        <if test="param.sex != null">
+          AND sex = #{param.sex}
+        </if>
+        <if test="param.minAge != null and param.maxAge!= null">
+          AND age BETWEEN #{param.minAge} AND #{param.maxAge}
+        </if>
+        <if test="param.minAge != null">
+          AND age <![CDATA[ >= ]]> #{param.minAge}
+        </if>
+        <if test="param.maxAge!= null">
+          AND age <![CDATA[ <= ]]> #{param.maxAge}
+        </if>
+        <if test="param.minGrades != null and param.maxGrades!= null">
+          AND grades BETWEEN #{param.minGrades} AND #{param.maxGrades}
+        </if>
+        <if test="param.minGrades != null">
+          AND grades <![CDATA[ >= ]]> #{param.minGrades}
+        </if>
+        <if test="param.maxGrades!= null">
+          AND grades <![CDATA[ <= ]]> #{param.maxGrades}
+        </if>
+        <if test="param.minGpa != null and param.maxGpa!= null">
+          AND gpa BETWEEN #{param.minGpa} AND #{param.maxGpa}
+        </if>
+        <if test="param.minGpa != null">
+          AND gpa <![CDATA[ >= ]]> #{param.minGpa}
+        </if>
+        <if test="param.maxGpa!= null">
+          AND gpa <![CDATA[ <= ]]> #{param.maxGpa}
+        </if>
+        <if test="param.minPrice != null and param.maxPrice!= null">
+          AND price BETWEEN #{param.minPrice} AND #{param.maxPrice}
+        </if>
+        <if test="param.minPrice != null">
+          AND price <![CDATA[ >= ]]> #{param.minPrice}
+        </if>
+        <if test="param.maxPrice!= null">
+          AND price <![CDATA[ <= ]]> #{param.maxPrice}
+        </if>
+      </if>
+    </where>
+  </select>
+
+</mapper>

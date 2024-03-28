@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ywm.mapper.UniversityMapper" >
+  <resultMap id="BaseResultMap" type="com.ywm.model.entity.University" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="ranking" property="ranking" jdbcType="INTEGER" />
+    <result column="lng" property="lng" jdbcType="VARCHAR" />
+    <result column="lat" property="lat" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="desc" property="desc" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    "id", "name", ranking, lng, lat, phone, logo, address, "desc", create_time, update_time
+  </sql>
+
+  <!-- 条件查询 大学信息分页列表 -->
+  <select id="getUniversityPageList"
+          parameterType="com.ywm.model.base.PageDTO"
+          resultType="com.ywm.model.university.UniversityVO">
+    SELECT * FROM "t_university"
+    <where>
+      <if test="param != null">
+        <if test="param.name != null and param.name != ''">
+          AND "name" LIKE CONCAT('%',#{param.name},'%')
+        </if>
+        <if test="param.topN != null">
+          AND ranking <![CDATA[ <= ]]> #{param.topN}
+        </if>
+      </if>
+    </where>
+    order by ranking
+    <if test="pageSize != null">
+      limit #{pageSize}
+    </if>
+    <if test="offset != null">
+      offset #{offset}
+    </if>
+  </select>
+
+  <!-- 条件查询 大学信息数量 -->
+  <select id="getUniversityCount"
+          parameterType="com.ywm.model.base.PageDTO"
+          resultType="java.lang.Long">
+    SELECT count(*) FROM "t_university"
+    <where>
+      <if test="param != null">
+        <if test="param.name != null and param.name != ''">
+          AND "name" LIKE CONCAT('%',#{param.name},'%')
+        </if>
+        <if test="param.topN != null">
+          AND ranking <![CDATA[ <= ]]> #{param.topN}
+        </if>
+      </if>
+    </where>
+  </select>
+
+</mapper>

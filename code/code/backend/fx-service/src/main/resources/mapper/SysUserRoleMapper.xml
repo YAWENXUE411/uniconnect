@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ywm.mapper.SysUserRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.ywm.model.entity.SysUserRole" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    "id", user_id, role_id, update_time
+  </sql>
+
+  <!-- 查询用户角色信息 -->
+  <select id="getRoleByUserId"
+          parameterType="java.lang.String"
+          resultType="com.ywm.model.user.UserRoleDTO">
+    SELECT
+      t1."id" userId
+      , t1.username
+      , t2.role_id
+      , t3."name" roleName
+    FROM "t_sys_user" t1
+    LEFT JOIN t_sys_user_role t2 ON t1."id" = t2.user_id
+    LEFT JOIN t_sys_role t3 ON t3.role_id = t2.role_id
+    where t1."id" = #{userId}
+  </select>
+
+</mapper>
